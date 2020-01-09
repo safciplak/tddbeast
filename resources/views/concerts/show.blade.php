@@ -1,6 +1,6 @@
 <h1><{{$concert->title}}/h1>
 <h2><{{$concert->subtitle}}/h2>
-<p><{{$concert->date->formated_date}}/p>
+<p><{{$concert->date->formatted_date}}/p>
 <p>Doors at {{$concert->date->formatted_start_time}}</p>
 <p>{{$concert->ticket_price_in_dollars}}</p>
 <p>{{$concert->venue}}</p>
