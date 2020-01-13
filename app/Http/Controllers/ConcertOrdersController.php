@@ -36,7 +36,6 @@ class ConcertOrdersController extends Controller
         ]);
 
         try {
-
             // Find some tickets
             $tickets = $concert->findTickets(request('ticket_quantity'));
 
