@@ -29,7 +29,7 @@ class ConcertTest extends TestCase
             'date' => Carbon::parse('2016-12-01 17:00:00')
         ]);
 
-        $this->assertEquals('5:00pm' ,$concert->formatted_start_time);
+        $this->assertEquals('5:00pm', $concert->formatted_start_time);
     }
 
     public function cat_get_ticket_price_in_dollars()
@@ -92,7 +92,7 @@ class ConcertTest extends TestCase
 
         try {
             $order = $concert->orderTickets('jane@example.com', 11);
-        } catch (NotEnoughTicketsException $e){
+        } catch (NotEnoughTicketsException $e) {
             $this->assertFalse($concert->hasOrderFor('jane@example.com'));
             $this->assertEquals(10, $concert->ticketsRemaining());
             return;
@@ -109,7 +109,7 @@ class ConcertTest extends TestCase
 
         try {
             $concert->orderTickets('john@example.com', 3);
-        } catch (NotEnoughTicketsException $e){
+        } catch (NotEnoughTicketsException $e) {
             $this->assertFalse($concert->hasOrderFor('john@example.com'));
             $this->assertEquals(2, $concert->ticketsRemaining());
             return;
@@ -126,6 +126,23 @@ class ConcertTest extends TestCase
 
         $reservedTickets = $concert->reserveTickets(2);
         $this->assertCount(2, $reservedTickets);
-        $this->assertCount(1, $concert->ticketsRemaining());
+        $this->assertEquals(1, $concert->ticketsRemaining());
+    }
+
+    /** @test */
+    public function cannot_reserve_tickets_that_have_already_been_reserved()
+    {
+        $concert = factory(Concert::class)->create()->addTickets(3);
+        $concert->reserveTickets(2);
+
+        try{
+            $concert->reserveTickets(2);
+        } catch (NotEnoughTicketsException $e){
+            $this->assertEquals(1, $concert->ticketsRemaining());
+            $this->assertTrue(true);
+            return;
+        }
+
+        $this->fail('Reserving tickets succeeded even tough the tickets were already');
     }
 }
