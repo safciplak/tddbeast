@@ -2,7 +2,6 @@
 
 namespace App;
 
-
 use Illuminate\Support\Collection;
 
 class Reservation

@@ -2,12 +2,7 @@
 
 namespace Tests\Unit;
 
-use App\Concert;
-use App\Order;
 use App\Reservation;
-use App\Ticket;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Mockery;
 use Tests\TestCase;
 
 class ReservationTest extends TestCase
