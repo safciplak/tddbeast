@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property mixed tickets
  * @property mixed email
  * @property mixed concert
+ * @property mixed amount
  */
 class Order extends Model
 {
@@ -42,7 +43,7 @@ class Order extends Model
         return [
           'email' => $this->email,
           'ticket_quantity' => $this->ticketQuantity(),
-          'amount' => $this->ticketQuantity() * $this->concert->ticket_price,
+          'amount' => $this->amount,
         ];
     }
 }
