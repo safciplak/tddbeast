@@ -9,7 +9,6 @@ use App\Billing\PaymentGateway;
 use App\Concert;
 use App\Order;
 use App\Reservation;
-use Illuminate\Http\Request;
 
 class ConcertOrdersController extends Controller
 {
