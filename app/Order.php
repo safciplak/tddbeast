@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed tickets
+ */
 class Order extends Model
 {
     protected $guarded = [];
@@ -12,4 +15,15 @@ class Order extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+
+    public function cancel()
+    {
+        foreach($this->tickets as $ticket){
+            $ticket->update(['order_id' => null]);
+        }
+
+        $this->delete();
+    }
 }
+
+
