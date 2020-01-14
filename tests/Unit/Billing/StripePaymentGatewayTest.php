@@ -10,6 +10,7 @@ use Tests\TestCase;
 class StripePaymentGatewayTest extends TestCase
 {
     use DatabaseMigrations;
+    private $lastCharge;
 
     /** @test */
     public function charges_with_a_valid_payment_token_are_successful()
@@ -17,6 +18,41 @@ class StripePaymentGatewayTest extends TestCase
         // Create a new StripePaymentGateway
         $paymentGateway = new StripePaymentGateway(config('services.stripe.secret'));
 
+        // Create a new charge for some amount using a valid token
+        $paymentGateway->charge(2500, $this->validToken());
+
+        // Verify that the charge was completed successfully
+        $this->assertCount(1, $this->newCharges($this->lastCharge));
+        $this->assertEquals(2500, $this->lastCharge->amount);
+    }
+
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->lastCharge = $this->lastCharge();
+
+    }
+
+    /**
+     * @return mixed
+     * @throws \Stripe\Exception\ApiErrorException
+     */
+    public function lastCharge()
+    {
+        return \Stripe\Charge::all(
+            ['limit' => 1],
+            ['api_key' => config('services.stripe.secret')]
+        )
+        ['data'][0];
+    }
+
+    /**
+     * @return string
+     * @throws \Stripe\Exception\ApiErrorException
+     */
+    public function validToken(): string
+    {
         $token = \Stripe\Token::create([
             'card' => [
                 'number' => '4242424242424242',
@@ -25,17 +61,18 @@ class StripePaymentGatewayTest extends TestCase
                 'cvc' => '123',
             ],
         ], ['api_key' => config('services.stripe.secret')])->id;
+        return $token;
+    }
 
-        // Create a new charge for some amount using a valid token
-        $paymentGateway->charge(2500, $token);
-
-        // Verify that the charge was completed successfully
-        $lastCharge = \Stripe\Charge::all(
-            ['limit' => 1],
+    public function newCharges($endingBefore)
+    {
+        return \Stripe\Charge::all(
+            [
+                'limit' => 1,
+                'ending_before' => $endingBefore->id,
+            ],
             ['api_key' => config('services.stripe.secret')]
         )
-        ['data'][0];
-
-        $this->assertEquals(2500, $lastCharge->amount);
+        ['data'];
     }
 }
