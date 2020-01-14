@@ -7,10 +7,20 @@ use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Stripe\Stripe;
 use Tests\TestCase;
 
+/**
+ * Class StripePaymentGatewayTest
+ * @group integration
+ *
+ */
 class StripePaymentGatewayTest extends TestCase
 {
-    use DatabaseMigrations;
     private $lastCharge;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->lastCharge = $this->lastCharge();
+    }
 
     /** @test */
     public function charges_with_a_valid_payment_token_are_successful()
@@ -24,14 +34,6 @@ class StripePaymentGatewayTest extends TestCase
         // Verify that the charge was completed successfully
         $this->assertCount(1, $this->newCharges($this->lastCharge));
         $this->assertEquals(2500, $this->lastCharge->amount);
-    }
-
-
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->lastCharge = $this->lastCharge();
-
     }
 
     /**
