@@ -2,6 +2,7 @@
 
 use App\Billing\FakePaymentGateway;
 use App\Billing\PaymentFailedException;
+use App\Billing\StripePaymentGateway;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Stripe\Stripe;
 use Tests\TestCase;
@@ -14,7 +15,7 @@ class StripePaymentGatewayTest extends TestCase
     public function charges_with_a_valid_payment_token_are_successful()
     {
         // Create a new StripePaymentGateway
-        $paymentGateway = new StripePaymentGateway;
+        $paymentGateway = new StripePaymentGateway(config('services.stripe.secret'));
 
         $token = \Stripe\Token::create([
             'card' => [
