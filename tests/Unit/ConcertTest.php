@@ -124,8 +124,9 @@ class ConcertTest extends TestCase
         $concert = factory(Concert::class)->create()->addTickets(3);
         $this->assertEquals(3, $concert->ticketsRemaining());
 
-        $reservedTickets = $concert->reserveTickets(2);
-        $this->assertCount(2, $reservedTickets);
+        $reservation = $concert->reserveTickets(2);
+
+        $this->assertCount(2, $reservation->tickets());
         $this->assertEquals(1, $concert->ticketsRemaining());
     }
 
