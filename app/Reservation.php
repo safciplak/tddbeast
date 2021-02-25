@@ -20,21 +20,43 @@ class Reservation
         $this->email = $email;
     }
 
+    /**
+     * Total Cost.
+     *
+     * @return mixed
+     */
     public function totalCost()
     {
         return $this->tickets->sum('price');
     }
 
+    /**
+     * Tickets.
+     *
+     * @return Collection
+     */
     public function tickets()
     {
         return $this->tickets;
     }
 
+    /**
+     * Email.
+     *
+     * @return mixed
+     */
     public function email()
     {
         return $this->email;
     }
 
+    /**
+     * Complete.
+     *
+     * @param $paymentGateway
+     * @param $paymentToken
+     * @return mixed
+     */
     public function complete($paymentGateway, $paymentToken)
     {
         $paymentGateway->charge($this->totalCost(), $paymentToken);
@@ -42,6 +64,9 @@ class Reservation
         return Order::forTickets($this->tickets(), $this->email(), $this->totalCost());
     }
 
+    /**
+     * Cancel.
+     */
     public function cancel()
     {
         foreach($this->tickets as $ticket){

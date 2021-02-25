@@ -14,7 +14,14 @@ class Order extends Model
 {
     protected $guarded = [];
 
-
+    /**
+     * For Tickets.
+     *
+     * @param $tickets
+     * @param $email
+     * @param $amount
+     * @return mixed
+     */
     public static function forTickets($tickets, $email, $amount)
     {
         $order = self::create([
@@ -29,21 +36,41 @@ class Order extends Model
         return $order;
     }
 
+    /**
+     * Concert.
+     *
+     * @return mixed
+     */
     public function concert()
     {
         return $this->belongsTo(Concert::class);
     }
 
+    /**
+     * Tickets.
+     *
+     * @return mixed
+     */
     public function tickets()
     {
         return $this->hasMany(Ticket::class);
     }
 
+    /**
+     * Ticket Quantity.
+     *
+     * @return mixed
+     */
     public function ticketQuantity()
     {
         return $this->tickets()->count();
     }
 
+    /**
+     * To Array.
+     *
+     * @return array
+     */
     public function toArray()
     {
         return [

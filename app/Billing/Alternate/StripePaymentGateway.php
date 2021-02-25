@@ -8,6 +8,7 @@ class StripePaymentGateway implements PaymentGateway
 
     /**
      * StripePaymentGateway constructor.
+     *
      * @param \Stripe\ApiClient $stripeClient
      */
     public function __construct(\Stripe\ApiClient $stripeClient)
@@ -15,6 +16,12 @@ class StripePaymentGateway implements PaymentGateway
         $this->stripeClient = $stripeClient;
     }
 
+    /**
+     * Charge.
+     *
+     * @param $amount
+     * @param $token
+     */
     public function charge($amount, $token)
     {
         $this->stripeClient->createCharge([

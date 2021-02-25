@@ -51,6 +51,8 @@ class StripePaymentGatewayTest extends TestCase
     }
 
     /**
+     * Last Charge.
+     *
      * @return mixed
      * @throws \Stripe\Exception\ApiErrorException
      */
@@ -64,6 +66,8 @@ class StripePaymentGatewayTest extends TestCase
     }
 
     /**
+     * Valid Token.
+     *
      * @return string
      * @throws \Stripe\Exception\ApiErrorException
      */
@@ -80,6 +84,12 @@ class StripePaymentGatewayTest extends TestCase
         return $token;
     }
 
+    /**
+     * New Charges.
+     *
+     * @param $endingBefore
+     * @return mixed
+     */
     public function newCharges($endingBefore)
     {
         return \Stripe\Charge::all(

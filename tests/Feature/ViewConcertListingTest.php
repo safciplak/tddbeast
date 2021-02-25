@@ -14,7 +14,6 @@ class ViewConcertListingTest extends TestCase
     /** @test */
     public function user_can_view_a_published_concert_listing()
     {
-
         $concert = factory(Concert::class)->states('published')->create([
             'title' => 'The Red Chord',
             'subtitle' => 'with Animosity and Lethargy',
@@ -50,7 +49,5 @@ class ViewConcertListingTest extends TestCase
         $response = $this->get('/concerts/'. $concert->id);
 
         $response->assertStatus(404);
-
-
     }
 }

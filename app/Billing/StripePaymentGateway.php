@@ -11,6 +11,7 @@ class StripePaymentGateway implements PaymentGateway
 
     /**
      * StripePaymentGateway constructor.
+     *
      * @param $apiKey
      */
     public function __construct($apiKey)
@@ -18,6 +19,12 @@ class StripePaymentGateway implements PaymentGateway
         $this->apiKey = $apiKey;
     }
 
+    /**
+     * Charge.
+     *
+     * @param $amount
+     * @param $token
+     */
     public function charge($amount, $token)
     {
         try {
@@ -29,6 +36,5 @@ class StripePaymentGateway implements PaymentGateway
         } catch (InvalidRequestException $e) {
             throw new PaymentFailedException();
         }
-
     }
 }

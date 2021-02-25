@@ -26,6 +26,12 @@ class ConcertOrdersController extends Controller
         $this->paymentGateway = $paymentGateway;
     }
 
+    /**
+     * Store.
+     *
+     * @param $concertId
+     * @return mixed
+     */
     public function store($concertId)
     {
         $concert = Concert::published()->findOrFail($concertId);

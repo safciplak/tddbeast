@@ -16,7 +16,7 @@ class PurchaseTicketsTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     *
+     * SetUp.
      */
     public function setUp(): void
     {
@@ -25,11 +25,24 @@ class PurchaseTicketsTest extends TestCase
         $this->app->instance(PaymentGateway::class, $this->paymentGateway);
     }
 
+    /**
+     * Order Tickets.
+     *
+     * @param $concert
+     * @param $params
+     * @return mixed
+     */
     private function orderTickets($concert, $params)
     {
         return $this->json('POST', "/concerts/{$concert->id}/orders", $params);
     }
 
+    /**
+     * Assert Validation For.
+     *
+     * @param $response
+     * @param $field
+     */
     private function assertValidationError($response, $field)
     {
         $response->assertStatus(422);
@@ -188,7 +201,6 @@ class PurchaseTicketsTest extends TestCase
 
         $this->assertValidationError($response, 'errors');
     }
-
 
     /** @test */
     public function ticket_quantity_must_be_at_least_1_to_purchase_tickets()

@@ -4,7 +4,6 @@ namespace App\Billing\Alternate;
 
 class FakePaymentGateway implements PaymentGateway
 {
-
     private $charges;
     private $beforeFirstChargeCallback;
 
@@ -19,10 +18,11 @@ class FakePaymentGateway implements PaymentGateway
     public function getValidTestToken()
     {
         return "valid-token";
-
     }
 
     /**
+     * Charge.
+     *
      * @param $amount
      * @param $token
      */
@@ -39,14 +39,23 @@ class FakePaymentGateway implements PaymentGateway
         $this->charges[] = $amount;
     }
 
+    /**
+     * Total Charges.
+     *
+     * @return mixed
+     */
     public function totalCharges()
     {
         return $this->charges->sum();
     }
 
+    /**
+     * Before First Charge.
+     *
+     * @param $callback
+     */
     public function beforeFirstCharge($callback)
     {
         $this->beforeFirstChargeCallback = $callback;
     }
-
 }

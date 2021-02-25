@@ -33,6 +33,5 @@ class TicketTest extends TestCase
         $ticket->release();
 
         $this->assertNull($ticket->fresh()->reserved_at);
-
     }
 }
